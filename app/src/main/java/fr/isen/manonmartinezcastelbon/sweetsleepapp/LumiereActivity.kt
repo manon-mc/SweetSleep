@@ -4,7 +4,6 @@ package fr.isen.manonmartinezcastelbon.sweetsleepapp
 import android.content.*
 import android.os.*
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import fr.isen.manonmartinezcastelbon.sweetsleepapp.databinding.ActivityLumiereBinding
 
@@ -16,7 +15,6 @@ class LumiereActivity : AppCompatActivity() {
     private var bound: Boolean = false
 
     lateinit var binding: ActivityLumiereBinding
-    private lateinit var mService: BoundService
     private var mBound: Boolean = false
 
     /** Defines callbacks for service binding, passed to bindService()  */
@@ -57,25 +55,52 @@ class LumiereActivity : AppCompatActivity() {
             }
         }
         binding.boutonBlanc.setOnClickListener {
-            Log.d(TAG, "my Message")
+            Log.d(TAG, "my Message 3")
             if (!bound) return@setOnClickListener
             // Create and send a message to the service, using a supported 'what' value
             val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
             try {
-                Log.d(TAG, "my Message 2")
+                Log.d(TAG, "my Message 4")
                 m2Service?.send(msg)
             } catch (e: RemoteException) {
                 e.printStackTrace()
             }
         }
         binding.boutonJaune.setOnClickListener {
-            startActivity(intent)
+            Log.d(TAG, "my Message 5")
+            if (!bound) return@setOnClickListener
+            // Create and send a message to the service, using a supported 'what' value
+            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
+            try {
+                Log.d(TAG, "my Message 6")
+                m2Service?.send(msg)
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
         }
         binding.boutonVert.setOnClickListener {
-            startActivity(intent)
+            Log.d(TAG, "my Message 7")
+            if (!bound) return@setOnClickListener
+            // Create and send a message to the service, using a supported 'what' value
+            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
+            try {
+                Log.d(TAG, "my Message 8")
+                m2Service?.send(msg)
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
         }
         binding.boutonRouge.setOnClickListener {
-            startActivity(intent)
+            Log.d(TAG, "my Message 9")
+            if (!bound) return@setOnClickListener
+            // Create and send a message to the service, using a supported 'what' value
+            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
+            try {
+                Log.d(TAG, "my Message 10")
+                m2Service?.send(msg)
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
         }
     }
 

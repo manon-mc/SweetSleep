@@ -3,8 +3,14 @@ package fr.isen.manonmartinezcastelbon.sweetsleepapp
 import android.app.Service
 import android.bluetooth.*
 import android.bluetooth.BluetoothAdapter.*
+import android.bluetooth.le.ScanCallback
+import android.bluetooth.le.ScanFilter
+import android.bluetooth.le.ScanResult
+import android.content.BroadcastReceiver
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.*
 import android.util.Log
 import android.widget.Toast
@@ -21,7 +27,11 @@ class BoundService : Service() {
     private var mBluetoothGatt: BluetoothGatt? = null
     private var mConnectionState = STATE_DISCONNECTED
 
+    private var isScanning =false
+    private var bluetoothAdapter: BluetoothAdapter? =null
+
     private lateinit var mMessenger: Messenger
+
 
     private val mGenerator = Random()
 
@@ -40,7 +50,50 @@ class BoundService : Service() {
             }
         }
     }
+    override fun onCreate() {
+        // Register for broadcasts when a device is discovered.
+        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+        registerReceiver(receiver, filter)
+    }
+    /*
 
+    val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
+    pairedDevices?.forEach {
+        device ->
+        val deviceName = device.name
+        val deviceHardwareAddress = device.address // MAC address
+    }
+
+    val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+    registerReceiver(receiver, filter)
+
+    private val receiver = object : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+            val action: String? = intent.action
+            when(action) {
+                BluetoothDevice.ACTION_FOUND -> {
+                    // Discovery has found a device. Get the BluetoothDevice
+                    // object and its info from the Intent.
+                    val device: BluetoothDevice? =
+                            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+                    val deviceName = device?.name
+                    val deviceHardwareAddress = device?.address // MAC address
+                }
+            }
+        }
+    }
+    val requestCode = 1;
+    val discoverableIntent: Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
+        putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
+    }
+    startActivityForResult(discoverableIntent, requestCode)
+*/
+    override fun onDestroy() {
+        super.onDestroy()
+        // Don't forget to unregister the ACTION_FOUND receiver.
+        unregisterReceiver(receiver)
+    }
     private val mGattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             val intentAction: String
@@ -59,7 +112,7 @@ class BoundService : Service() {
                 broadcastUpdate(intentAction)
             }
 
-            fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
+            /*fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
                     broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED)
                 } else {
@@ -78,20 +131,8 @@ class BoundService : Service() {
              fun onCharacteristicChanged(gatt: BluetoothGatt,
                                                  characteristic: BluetoothGattCharacteristic) {
                 broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic)
-            }
+            } */
         }
-
-    }
-    private fun broadcastUpdate(action: String) {
-        val intent = Intent(action)
-        sendBroadcast(intent)
-    }
-    private fun broadcastUpdate(action: String,
-                                characteristic: BluetoothGattCharacteristic) {
-        val intent = Intent(action)
-
-        // This is special handling for the  Measurement profile.
-
 
     }
 
@@ -105,6 +146,8 @@ class BoundService : Service() {
         mMessenger = Messenger(BoundService.IncomingHandler(this))
         return mMessenger.binder
     }
+    /*
+
     override fun onUnbind(intent: Intent): Boolean {
         // After using a given device, you should make sure that BluetoothGatt.close() is called
         // such that resources are cleaned up properly.  In this particular example, close() is
@@ -113,7 +156,6 @@ class BoundService : Service() {
         return super.onUnbind(intent)
     }
 
-    private val mBinder = LocalBinder()
 
     fun initialize(): Boolean {
         // For API level 18 and above, get a reference to BluetoothAdapter through
@@ -219,5 +261,5 @@ class BoundService : Service() {
         val ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE"
 
     }
-
+    */
 }

@@ -17,7 +17,6 @@ import fr.isen.manonmartinezcastelbon.sweetsleepapp.databinding.ActivityTemperat
 class TemperatureActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityTemperatureBinding
-    private lateinit var mService: BoundService
     private var mBound: Boolean = false
     private val TAG = TemperatureActivity::class.java.simpleName
 
