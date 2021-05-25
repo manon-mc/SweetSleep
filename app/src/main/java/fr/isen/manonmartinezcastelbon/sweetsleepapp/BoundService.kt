@@ -19,6 +19,11 @@ class BoundService : Service() {
     private var mConnectionState = STATE_DISCONNECTED
 
 
+    private val mGenerator = Random()
+
+    val randomNumber: Int
+        get() = mGenerator.nextInt(100)
+
     private val mGattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             val intentAction: String
