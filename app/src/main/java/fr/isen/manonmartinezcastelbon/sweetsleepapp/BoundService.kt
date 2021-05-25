@@ -79,8 +79,8 @@ class BoundService : Service() {
     }
 
     inner class LocalBinder : Binder() {
-        internal val service: BoundService
-            get() = this@BoundService
+        // Return this instance of LocalService so clients can call public methods
+        fun getService(): BoundService = this@BoundService
     }
 
     override fun onBind(intent: Intent): IBinder? {

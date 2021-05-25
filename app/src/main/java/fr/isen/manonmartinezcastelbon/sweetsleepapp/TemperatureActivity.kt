@@ -7,6 +7,8 @@ import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.os.Messenger
+import android.util.Log
 import android.view.View
 import fr.isen.manonmartinezcastelbon.sweetsleepapp.R
 import fr.isen.manonmartinezcastelbon.sweetsleepapp.databinding.ActivityLumiereBinding
@@ -17,15 +19,23 @@ class TemperatureActivity : AppCompatActivity() {
     lateinit var binding: ActivityTemperatureBinding
     private lateinit var mService: BoundService
     private var mBound: Boolean = false
+    private val TAG = TemperatureActivity::class.java.simpleName
+
+    private var m2Service: Messenger? = null
+    private var bound: Boolean = false
+
 
     /** Defines callbacks for service binding, passed to bindService()  */
     private val connection = object : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            Log.d(TAG, "my conexion")
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             val binder = service as BoundService.LocalBinder
-            mService = binder.getService()
-            mBound = true
+            //mService = binder.getService()
+            //mBound = true
+            m2Service = Messenger(service)
+            bound = true
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {

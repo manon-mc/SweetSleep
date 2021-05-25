@@ -83,7 +83,7 @@ class LumiereActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "inside la conexion ")
+        Log.d(TAG, "inside la connexion ")
         // Bind to LocalService
         Intent(this, BoundService::class.java).also { intent ->
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
