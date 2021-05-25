@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">SweetSleepApp</string>
+    <string name="titreHome">SWEETSLEEP</string>
+    <string name="buttonEntre">ENTRER</string>
+
+    <string name="titleImage">SWEETSLEEP</string>
+    <string name="boutonID">IDENTIFIANT</string>
+    <string name="boutonMDP">MOT DE PASSE</string>
+    <string name="boutonConnexion">Mon Espace</string>
+    <string name="texteConnexBLE">Trouvez votre doudou</string>
+    <string name="boutonBLE">BLUETOOTH</string>
+    <string name="boutonCreerCpt">Créer un compte</string>
+
+    <string name="textInputLayout5">EMAIL</string>
+    <string name="textInputLayout6"> MOT DE PASSE </string>
+
+    <string name="titreConnexion">SE CONNECTER</string>
+
+    <string name="name">Nom du service: </string>
+    <string name="accesName"> NOM </string>
+    <string name="nomuuid"> Nom de uuid:  </string>
+    <string name="uuidAcces"> NOM UUID </string>
+
+    <string name="text1"> Nom du Service : </string>
+    <string name="text2"> SERVICE </string>
+    <string name="text3"> Charactère du nom : </string>
+    <string name="text4"> CHARACTERE </string>
+    <string name="text5"> Propriété du service : </string>
+    <string name="text6"> PROPRIETE </string>
+    <string name="text7"> Valeur des textes : </string>
+    <string name="text8"> VALEUR </string>
+    <string name="lireAction"> LIRE </string>
+    <string name="ecritureAction"> ECRIRE </string>
+    <string name="notifAction"> NOTIFIER </string>
+
+
+    <string name="ble_device_status_connecting">Connexion en cours</string>
+    <string name="ble_device_status_disconnected"></string>
+    <string name="ble_status_connected">Connecté</string>
+    <string name="ble_device_status_disconnecting">Déconnexion en cours</string>
+
+    <string name="entrerVal">Entrez une valeur</string>
+    <string name="temp"> Température Ambiante </string>
+    <string name="temp2"> Savoir la température</string>
+    <string name="act"> LA TEMPERATURE EST DE :</string>
+    <string name="act2"> 25 °c</string>
+
+
+    <string name="titreRegistre">Création de votre compte</string>
+    <string name="prenom">Prénom</string>
+    <string name="nom">Nom</string>
+    <string name="identifiant">Mon Email</string>
+    <string name="motdepasse">Mot de passe </string>
+    <string name="boutonCreerCompte">Creer le compte</string>
+    <string name="boutonSeConnecter">Se Connecter</string>
+
+    <string name="textAccueil">CHOISIR UNE OPTION</string>
+    <string name="boutonMusic">MUSIQUE PELUCHE</string>
+    <string name="boutonLuz">LUMIERE PELUCHE</string>
+    <string name="boutonTemp"> TEMPERATURE AMBIANTE</string>
+
+    <string name="textMusic">Mettez de la musique pour endormir votre bébé</string>
+    <string name="nomMusic">Au claire de la lune</string>
+    <string name="nommUsic">Berceuse</string>
+    <string name="nommusIc">Comptine</string>
+
+    <string name="aleerte"> ALERTE </string>
+
+
+    <string name="titleLogo">SWEETSLEEP</string>
+    <string name="titleLuz">METTEZ UN PEU DE LUMIERE</string>
+    <string name="boutonBleu">BLEU</string>
+    <string name="boutonJaune">JAUNE</string>
+    <string name="boutonVert">VERT</string>
+    <string name="boutonRouge">ROUGE</string>
+    <string name="boutonBlanc">BLANC</string>
+
+    <string name="textAlerte">VOTRE BEBE PLEURE</string>
+    <string name="boutonArret">ARRETER</string>
+    <string name="boutonOpt">OPTIONS</string>
+
+    <string name="scan">Lancer le scan bluetooth</string>
+    <string name="ble_title2">Le scan BLE charge</string>
+
+    <string name="nomBLE">Nom</string>
+    <string name="adressDevice">Adresse</string>
+    <string name="boutonNum">Numéro</string>
+
+    <string name="text10">Nom :</string>
+    <string name="ble_device_status"> %1$s</string>
+
+    <string name="nomBle">Nom du bluetooth : </string>
+    <string name="nom2Ble">Nom</string>
+    <string name="adressBLE">Adresse : </string>
+    <string name="adress2BLE">adresse </string>
+    <string name="status">Status : </string>
+    <string name="statusBle">status connecté </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

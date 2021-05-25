@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1014870189083",
+    "project_id": "sweetsleepapp",
+    "firebase_url": "https://sweetsleepapp-default-rtdb.firebaseio.com",
+    "storage_bucket": "sweetsleepapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014870189083:android:a65b05fe5550311fc6c4be",
+        "android_client_info": {
+          "package_name": "fr.isen.manonmartinezcastelbon.sweetsleepapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014870189083-g9evjlu9t69td4ctdt5j9d0k6n7psjjb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI3jYEGRfPNEfT2BoTgGhbBoFn-GgvahA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014870189083-g9evjlu9t69td4ctdt5j9d0k6n7psjjb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
