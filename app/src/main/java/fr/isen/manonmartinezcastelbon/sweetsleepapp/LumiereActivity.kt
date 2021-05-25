@@ -57,7 +57,16 @@ class LumiereActivity : AppCompatActivity() {
             }
         }
         binding.boutonBlanc.setOnClickListener {
-            startActivity(intent)
+            Log.d(TAG, "my Message")
+            if (!bound) return@setOnClickListener
+            // Create and send a message to the service, using a supported 'what' value
+            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
+            try {
+                Log.d(TAG, "my Message 2")
+                m2Service?.send(msg)
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
         }
         binding.boutonJaune.setOnClickListener {
             startActivity(intent)

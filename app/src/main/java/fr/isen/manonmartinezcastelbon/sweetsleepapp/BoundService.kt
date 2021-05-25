@@ -5,10 +5,13 @@ import android.bluetooth.*
 import android.bluetooth.BluetoothAdapter.*
 import android.content.Context
 import android.content.Intent
-import android.os.Binder
-import android.os.IBinder
+import android.os.*
 import android.util.Log
+import android.widget.Toast
 import java.util.*
+
+
+private const val MSG_SAY_HELLO = 1
 
 class BoundService : Service() {
 
@@ -18,11 +21,25 @@ class BoundService : Service() {
     private var mBluetoothGatt: BluetoothGatt? = null
     private var mConnectionState = STATE_DISCONNECTED
 
+    private lateinit var mMessenger: Messenger
 
     private val mGenerator = Random()
 
     val randomNumber: Int
         get() = mGenerator.nextInt(100)
+
+    internal class IncomingHandler(
+            context: Context,
+            private val applicationContext: Context = context.applicationContext
+    ) : Handler() {
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                MSG_SAY_HELLO ->
+                    Toast.makeText(applicationContext, "hello!", Toast.LENGTH_SHORT).show()
+                else -> super.handleMessage(msg)
+            }
+        }
+    }
 
     private val mGattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
@@ -84,7 +101,9 @@ class BoundService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        return mBinder
+        Toast.makeText(applicationContext, "binding", Toast.LENGTH_SHORT).show()
+        mMessenger = Messenger(BoundService.IncomingHandler(this))
+        return mMessenger.binder
     }
     override fun onUnbind(intent: Intent): Boolean {
         // After using a given device, you should make sure that BluetoothGatt.close() is called
@@ -198,9 +217,7 @@ class BoundService : Service() {
         val ACTION_GATT_DISCONNECTED = "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED"
         val ACTION_GATT_SERVICES_DISCOVERED = "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED"
         val ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE"
-        val EXTRA_DATA = "com.example.bluetooth.le.EXTRA_DATA"
 
-        //val UUID_HEART_RATE_MEASUREMENT = UUID.fromString(SampleGattAttributes.HEART_RATE_MEASUREMENT)
     }
 
 }
