@@ -1,14 +1,10 @@
 package fr.isen.manonmartinezcastelbon.sweetsleepapp
 
-import android.bluetooth.BluetoothGattCharacteristic
-import android.bluetooth.BluetoothGattService
+
 import android.content.*
 import android.os.*
 import android.util.Log
 import android.view.View
-import android.widget.ExpandableListView
-import android.widget.SimpleExpandableListAdapter
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import fr.isen.manonmartinezcastelbon.sweetsleepapp.databinding.ActivityLumiereBinding
 
@@ -72,6 +68,17 @@ class LumiereActivity : AppCompatActivity() {
         binding.boutonRouge.setOnClickListener {
             startActivity(intent)
         }
+    }
+    fun sayHello(v: View) {
+        if (!bound) return
+        // Create and send a message to the service, using a supported 'what' value
+        val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
+        try {
+            m2Service?.send(msg)
+        } catch (e: RemoteException) {
+            e.printStackTrace()
+        }
+
     }
 
     override fun onStart() {
