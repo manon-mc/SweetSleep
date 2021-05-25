@@ -67,15 +67,4 @@ class TemperatureActivity : AppCompatActivity() {
         mBound = false
     }
 
-    /** Called when a button is clicked (the button in the layout file attaches to
-     * this method with the android:onClick attribute)  */
-    fun onButtonClick(v: View) {
-        if (mBound) {
-            // Call a method from the LocalService.
-            // However, if this call were something that might hang, then this request should
-            // occur in a separate thread to avoid slowing down the activity performance.
-            val num: Int = mService.randomNumber
-            //Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()
-        }
-    }
 }

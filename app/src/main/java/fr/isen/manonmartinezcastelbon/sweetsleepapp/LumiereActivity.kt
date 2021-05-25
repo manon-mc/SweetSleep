@@ -78,17 +78,7 @@ class LumiereActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    fun sayHello(v: View) {
-        if (!bound) return
-        // Create and send a message to the service, using a supported 'what' value
-        val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
-        try {
-            m2Service?.send(msg)
-        } catch (e: RemoteException) {
-            e.printStackTrace()
-        }
 
-    }
 
     override fun onStart() {
         super.onStart()
@@ -100,7 +90,7 @@ class LumiereActivity : AppCompatActivity() {
             }
         }
 
-        override fun onStop() {
+    override fun onStop() {
             super.onStop()
             unbindService(connection)
             mBound = false
@@ -108,18 +98,6 @@ class LumiereActivity : AppCompatActivity() {
                 unbindService(connection)
                 bound = false
             }
-
-            /** Called when a button is clicked (the button in the layout file attaches to
-             * this method with the android:onClick attribute)  */
-            fun onButtonClick(v: View) {
-                if (mBound) {
-                    // Call a method from the LocalService.
-                    // However, if this call were something that might hang, then this request should
-                    // occur in a separate thread to avoid slowing down the activity performance.
-                    val num: Int = mService.randomNumber
-                    //Toast.makeText(this, "number: $num", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+    }
 
 }
