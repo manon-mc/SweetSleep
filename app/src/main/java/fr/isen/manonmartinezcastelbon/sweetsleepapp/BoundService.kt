@@ -20,11 +20,14 @@ import java.util.*
 private const val MSG_SAY_HELLO = 1
 
 class BoundService : Service() {
+    private var mBluetoothManager: BluetoothManager? = null
+    private var mBluetoothAdapter: BluetoothAdapter? = null
 
+    private var mBluetoothDeviceAddress: String? = null
     private var mBluetoothGatt: BluetoothGatt? = null
     private var mConnectionState = STATE_DISCONNECTED
     private lateinit var mMessenger: Messenger
-
+    private var mac = ""
     internal class IncomingHandler(
             context: Context,
             private val applicationContext: Context = context.applicationContext
@@ -38,19 +41,19 @@ class BoundService : Service() {
         }
     }
 
-    private fun deviceBle(){
-        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
+    public fun deviceBle(){
+        val pairedDevices: Set<BluetoothDevice>? = mBluetoothAdapter?.bondedDevices
         pairedDevices?.forEach {
             device ->
             val deviceName = device.name
-            val deviceHardwareAddress = device.address // MAC address
+         val mac = device.address
+            this.connect(mac)// MAC address
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         // Don't forget to unregister the ACTION_FOUND receiver.
-        unregisterReceiver(receiver)
     }
     private val mGattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
@@ -58,7 +61,6 @@ class BoundService : Service() {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 intentAction = ACTION_GATT_CONNECTED
                 mConnectionState = STATE_CONNECTED
-                broadcastUpdate(intentAction)
                 Log.i(TAG, "Connecté au serveur.")
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" + mBluetoothGatt!!.discoverServices())
@@ -67,7 +69,6 @@ class BoundService : Service() {
                 intentAction = ACTION_GATT_DISCONNECTED
                 mConnectionState = STATE_DISCONNECTED
                 Log.i(TAG, "Disconnected from GATT server.")
-                broadcastUpdate(intentAction)
             }
         }
 
@@ -86,7 +87,7 @@ class BoundService : Service() {
 
     override fun onUnbind(intent: Intent): Boolean {
         // After using a given device, you should make sure that BluetoothGatt.close() is called
-        // such that resources are cleaned up properly.  In this particular example, close() is
+        // such tconnecthat resources are cleaned up properly.  In this particular example, close() is
         // invoked when the UI is disconnected from the Service.
         close()
         return super.onUnbind(intent)

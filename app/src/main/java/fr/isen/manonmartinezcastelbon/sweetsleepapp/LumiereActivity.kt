@@ -13,7 +13,7 @@ class LumiereActivity : AppCompatActivity() {
     private val TAG = LumiereActivity::class.java.simpleName
     private var messenger: Messenger? = null
     private var bound: Boolean = false
-
+    private var boundS: BoundService? = null
     lateinit var binding: ActivityLumiereBinding
     private var mBound: Boolean = false
 
@@ -40,20 +40,24 @@ class LumiereActivity : AppCompatActivity() {
 
         binding.boutonBleu.setOnClickListener {
             sendMessageToBleService(1)
+            boundS?.deviceBle();
         }
         binding.boutonBlanc.setOnClickListener {
             sendMessageToBleService(2)
+            boundS?.deviceBle();
         }
         binding.boutonJaune.setOnClickListener {
             sendMessageToBleService(1)
-
+            boundS?.deviceBle();
         }
         binding.boutonVert.setOnClickListener {
             sendMessageToBleService(2)
-
+            boundS?.deviceBle();
         }
         binding.boutonRouge.setOnClickListener {
+            boundS?.deviceBle();
             sendMessageToBleService(3)
+
         }
     }
 
@@ -61,6 +65,7 @@ class LumiereActivity : AppCompatActivity() {
         Log.d(TAG, "my Message")
         if (bound){
             val msg: Message = Message.obtain(null, messageToSend, 0, 0)
+
             try {
                 Log.d(TAG, "my Message 2")
                 messenger?.send(msg)
