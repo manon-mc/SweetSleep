@@ -11,7 +11,7 @@ import fr.isen.manonmartinezcastelbon.sweetsleepapp.databinding.ActivityLumiereB
 class LumiereActivity : AppCompatActivity() {
 
     private val TAG = LumiereActivity::class.java.simpleName
-    private var m2Service: Messenger? = null
+    private var messenger: Messenger? = null
     private var bound: Boolean = false
 
     lateinit var binding: ActivityLumiereBinding
@@ -22,17 +22,13 @@ class LumiereActivity : AppCompatActivity() {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             Log.d(TAG, "my conexion")
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            val binder = service as BoundService.LocalBinder
-            //mService = binder.getService()
-            //mBound = true
-            m2Service = Messenger(service)
+            messenger = Messenger(service)
             bound = true
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
             mBound = false
-           // mService = null
+            messenger = null
             bound = false
         }
     }
@@ -43,67 +39,37 @@ class LumiereActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.boutonBleu.setOnClickListener {
-            Log.d(TAG, "my Message")
-            if (!bound) return@setOnClickListener
-            // Create and send a message to the service, using a supported 'what' value
-            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
-            try {
-                Log.d(TAG, "my Message 2")
-                m2Service?.send(msg)
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
+            sendMessageToBleService(1)
         }
         binding.boutonBlanc.setOnClickListener {
-            Log.d(TAG, "my Message 3")
-            if (!bound) return@setOnClickListener
-            // Create and send a message to the service, using a supported 'what' value
-            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
-            try {
-                Log.d(TAG, "my Message 4")
-                m2Service?.send(msg)
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
+            sendMessageToBleService(2)
         }
         binding.boutonJaune.setOnClickListener {
-            Log.d(TAG, "my Message 5")
-            if (!bound) return@setOnClickListener
-            // Create and send a message to the service, using a supported 'what' value
-            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
-            try {
-                Log.d(TAG, "my Message 6")
-                m2Service?.send(msg)
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
+            sendMessageToBleService(1)
+
         }
         binding.boutonVert.setOnClickListener {
-            Log.d(TAG, "my Message 7")
-            if (!bound) return@setOnClickListener
-            // Create and send a message to the service, using a supported 'what' value
-            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
-            try {
-                Log.d(TAG, "my Message 8")
-                m2Service?.send(msg)
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
+            sendMessageToBleService(2)
+
         }
         binding.boutonRouge.setOnClickListener {
-            Log.d(TAG, "my Message 9")
-            if (!bound) return@setOnClickListener
-            // Create and send a message to the service, using a supported 'what' value
-            val msg: Message = Message.obtain(null, MSG_SAY_HELLO, 0, 0)
-            try {
-                Log.d(TAG, "my Message 10")
-                m2Service?.send(msg)
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
+            sendMessageToBleService(3)
         }
     }
 
+    private fun sendMessageToBleService(messageToSend: Int) {
+        Log.d(TAG, "my Message")
+        if (bound){
+            val msg: Message = Message.obtain(null, messageToSend, 0, 0)
+            try {
+                Log.d(TAG, "my Message 2")
+                messenger?.send(msg)
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
+
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -111,18 +77,17 @@ class LumiereActivity : AppCompatActivity() {
         // Bind to LocalService
         Intent(this, BoundService::class.java).also { intent ->
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
-
-            }
         }
+    }
 
     override fun onStop() {
-            super.onStop()
+        super.onStop()
+        unbindService(connection)
+        mBound = false
+        if (bound) {
             unbindService(connection)
-            mBound = false
-            if (bound) {
-                unbindService(connection)
-                bound = false
-            }
+            bound = false
+        }
     }
 
 }

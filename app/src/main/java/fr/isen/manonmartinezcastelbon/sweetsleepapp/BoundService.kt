@@ -21,22 +21,9 @@ private const val MSG_SAY_HELLO = 1
 
 class BoundService : Service() {
 
-    private var mBluetoothManager: BluetoothManager? = null
-    private var mBluetoothAdapter: BluetoothAdapter? = null
-    private var mBluetoothDeviceAddress: String? = null
     private var mBluetoothGatt: BluetoothGatt? = null
     private var mConnectionState = STATE_DISCONNECTED
-
-    private var isScanning =false
-    private var bluetoothAdapter: BluetoothAdapter? =null
-
     private lateinit var mMessenger: Messenger
-
-
-    private val mGenerator = Random()
-
-    val randomNumber: Int
-        get() = mGenerator.nextInt(100)
 
     internal class IncomingHandler(
             context: Context,
@@ -50,45 +37,16 @@ class BoundService : Service() {
             }
         }
     }
-    override fun onCreate() {
-        // Register for broadcasts when a device is discovered.
-        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-        registerReceiver(receiver, filter)
-    }
-    /*
 
-    val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
-    pairedDevices?.forEach {
-        device ->
-        val deviceName = device.name
-        val deviceHardwareAddress = device.address // MAC address
-    }
-
-    val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-    registerReceiver(receiver, filter)
-
-    private val receiver = object : BroadcastReceiver() {
-
-        override fun onReceive(context: Context, intent: Intent) {
-            val action: String? = intent.action
-            when(action) {
-                BluetoothDevice.ACTION_FOUND -> {
-                    // Discovery has found a device. Get the BluetoothDevice
-                    // object and its info from the Intent.
-                    val device: BluetoothDevice? =
-                            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
-                    val deviceName = device?.name
-                    val deviceHardwareAddress = device?.address // MAC address
-                }
-            }
+    private fun deviceBle(){
+        val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
+        pairedDevices?.forEach {
+            device ->
+            val deviceName = device.name
+            val deviceHardwareAddress = device.address // MAC address
         }
     }
-    val requestCode = 1;
-    val discoverableIntent: Intent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE).apply {
-        putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
-    }
-    startActivityForResult(discoverableIntent, requestCode)
-*/
+
     override fun onDestroy() {
         super.onDestroy()
         // Don't forget to unregister the ACTION_FOUND receiver.
@@ -111,27 +69,6 @@ class BoundService : Service() {
                 Log.i(TAG, "Disconnected from GATT server.")
                 broadcastUpdate(intentAction)
             }
-
-            /*fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
-                if (status == BluetoothGatt.GATT_SUCCESS) {
-                    broadcastUpdate(ACTION_GATT_SERVICES_DISCOVERED)
-                } else {
-                    Log.w(TAG, "onServicesDiscovered received: " + status)
-                }
-            }
-
-             fun onCharacteristicRead(gatt: BluetoothGatt,
-                                              characteristic: BluetoothGattCharacteristic,
-                                               status: Int) {
-                if (status == BluetoothGatt.GATT_SUCCESS) {
-                    broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic)
-                }
-            }
-
-             fun onCharacteristicChanged(gatt: BluetoothGatt,
-                                                 characteristic: BluetoothGattCharacteristic) {
-                broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic)
-            } */
         }
 
     }
@@ -143,10 +80,9 @@ class BoundService : Service() {
 
     override fun onBind(intent: Intent): IBinder? {
         Toast.makeText(applicationContext, "binding", Toast.LENGTH_SHORT).show()
-        mMessenger = Messenger(BoundService.IncomingHandler(this))
+        mMessenger = Messenger(IncomingHandler(this))
         return mMessenger.binder
     }
-    /*
 
     override fun onUnbind(intent: Intent): Boolean {
         // After using a given device, you should make sure that BluetoothGatt.close() is called
@@ -156,26 +92,6 @@ class BoundService : Service() {
         return super.onUnbind(intent)
     }
 
-
-    fun initialize(): Boolean {
-        // For API level 18 and above, get a reference to BluetoothAdapter through
-        // BluetoothManager.
-        if (mBluetoothManager == null) {
-            mBluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-            if (mBluetoothManager == null) {
-                Log.e(TAG, "Unable to initialize BluetoothManager.")
-                return false
-            }
-        }
-
-        mBluetoothAdapter = mBluetoothManager!!.adapter
-        if (mBluetoothAdapter == null) {
-            Log.e(TAG, "Unable to obtain a BluetoothAdapter.")
-            return false
-        }
-
-        return true
-    }
     fun connect(address: String?): Boolean {
         if (mBluetoothAdapter == null || address == null) {
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.")
@@ -212,13 +128,13 @@ class BoundService : Service() {
             Log.w(TAG, "BluetoothAdapter not initialized")
             return
         }
-        mBluetoothGatt!!.disconnect()
+        mBluetoothGatt?.disconnect()
     }
     fun close() {
         if (mBluetoothGatt == null) {
             return
         }
-        mBluetoothGatt!!.close()
+        mBluetoothGatt?.close()
         mBluetoothGatt = null
     }
 
@@ -227,7 +143,7 @@ class BoundService : Service() {
             Log.w(TAG, "BluetoothAdapter not initialized")
             return
         }
-        mBluetoothGatt!!.readCharacteristic(characteristic)
+        mBluetoothGatt?.readCharacteristic(characteristic)
     }
     fun setCharacteristicNotification(characteristic: BluetoothGattCharacteristic,
                                       enabled: Boolean) {
@@ -235,7 +151,7 @@ class BoundService : Service() {
             Log.w(TAG, "BluetoothAdapter not initialized")
             return
         }
-        mBluetoothGatt!!.setCharacteristicNotification(characteristic, enabled)
+        mBluetoothGatt?.setCharacteristicNotification(characteristic, enabled)
 
         // This is specific to  Measurement.
 
@@ -261,5 +177,5 @@ class BoundService : Service() {
         val ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE"
 
     }
-    */
+
 }
