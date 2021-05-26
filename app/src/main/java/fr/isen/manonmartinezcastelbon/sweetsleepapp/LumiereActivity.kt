@@ -39,24 +39,33 @@ class LumiereActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.boutonBleu.setOnClickListener {
+            boundS?.deviceBle()
             sendMessageToBleService(1)
-            boundS?.deviceBle();
+            boundS?.disconnect()
         }
         binding.boutonBlanc.setOnClickListener {
+            boundS?.deviceBle()
             sendMessageToBleService(2)
-            boundS?.deviceBle();
+            boundS?.disconnect()
+
         }
         binding.boutonJaune.setOnClickListener {
+            boundS?.deviceBle()
             sendMessageToBleService(1)
-            boundS?.deviceBle();
+            boundS?.disconnect()
+
         }
         binding.boutonVert.setOnClickListener {
+            boundS?.deviceBle()
             sendMessageToBleService(2)
-            boundS?.deviceBle();
+            boundS?.disconnect()
+
         }
         binding.boutonRouge.setOnClickListener {
-            boundS?.deviceBle();
+            boundS?.deviceBle()
             sendMessageToBleService(3)
+            boundS?.disconnect()
+
 
         }
     }

@@ -3,14 +3,8 @@ package fr.isen.manonmartinezcastelbon.sweetsleepapp
 import android.app.Service
 import android.bluetooth.*
 import android.bluetooth.BluetoothAdapter.*
-import android.bluetooth.le.ScanCallback
-import android.bluetooth.le.ScanFilter
-import android.bluetooth.le.ScanResult
-import android.content.BroadcastReceiver
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.*
 import android.util.Log
 import android.widget.Toast
@@ -93,7 +87,7 @@ class BoundService : Service() {
         return super.onUnbind(intent)
     }
 
-    fun connect(address: String?): Boolean {
+     fun connect(address: String?): Boolean {
         if (mBluetoothAdapter == null || address == null) {
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.")
             return false
@@ -124,6 +118,7 @@ class BoundService : Service() {
         mConnectionState = STATE_CONNECTING
         return true
     }
+
     fun disconnect() {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized")
@@ -131,6 +126,7 @@ class BoundService : Service() {
         }
         mBluetoothGatt?.disconnect()
     }
+
     fun close() {
         if (mBluetoothGatt == null) {
             return
@@ -138,32 +134,6 @@ class BoundService : Service() {
         mBluetoothGatt?.close()
         mBluetoothGatt = null
     }
-
-    fun readCharacteristic(characteristic: BluetoothGattCharacteristic) {
-        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Log.w(TAG, "BluetoothAdapter not initialized")
-            return
-        }
-        mBluetoothGatt?.readCharacteristic(characteristic)
-    }
-    fun setCharacteristicNotification(characteristic: BluetoothGattCharacteristic,
-                                      enabled: Boolean) {
-        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Log.w(TAG, "BluetoothAdapter not initialized")
-            return
-        }
-        mBluetoothGatt?.setCharacteristicNotification(characteristic, enabled)
-
-        // This is specific to  Measurement.
-
-    }
-
-    val supportedGattServices: List<BluetoothGattService>?
-        get() {
-            if (mBluetoothGatt == null) return null
-
-            return mBluetoothGatt!!.services
-        }
 
     companion object {
         private val TAG = BoundService::class.java.simpleName
@@ -174,8 +144,6 @@ class BoundService : Service() {
 
         val ACTION_GATT_CONNECTED = "com.example.bluetooth.le.ACTION_GATT_CONNECTED"
         val ACTION_GATT_DISCONNECTED = "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED"
-        val ACTION_GATT_SERVICES_DISCOVERED = "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED"
-        val ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE"
 
     }
 
