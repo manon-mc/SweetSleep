@@ -16,6 +16,7 @@ class AccueilActivity : AppCompatActivity() {
         binding = ActivityAccueilBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //redirige vers la musique
         binding.boutonMusic.setOnClickListener {
             // bouton entrees
             //Toast.makeText(this, "Entrées", Toast.LENGTH_SHORT)
@@ -23,6 +24,7 @@ class AccueilActivity : AppCompatActivity() {
             intent.putExtra("musique", "")
             startActivity(intent)
         }
+        //redirige vers l'alerte
         binding.aleerte.setOnClickListener {
             // bouton entrees
             //Toast.makeText(this, "Entrées", Toast.LENGTH_SHORT)
@@ -30,6 +32,7 @@ class AccueilActivity : AppCompatActivity() {
             intent.putExtra("alerte", "")
             startActivity(intent)
         }
+        //redirige vers la lumiere
         binding.boutonLuz.setOnClickListener {
             // bouton entrees
             //Toast.makeText(this, "Entrées", Toast.LENGTH_SHORT)
@@ -37,6 +40,7 @@ class AccueilActivity : AppCompatActivity() {
             intent.putExtra("lumiere", "")
             startActivity(intent)
         }
+        //redirige vers la Temperature
         binding.boutonTemp.setOnClickListener {
             // bouton entrees
             //Toast.makeText(this, "Entrées", Toast.LENGTH_SHORT)

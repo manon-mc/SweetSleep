@@ -10,6 +10,7 @@ import fr.isen.manonmartinezcastelbon.sweetsleepapp.databinding.ActivityLumiereB
 
 class LumiereActivity : AppCompatActivity() {
 
+    // déclaration des variables et instanciation
     private val TAG = LumiereActivity::class.java.simpleName
     private var messenger: Messenger? = null
     private var bound: Boolean = false
@@ -19,13 +20,13 @@ class LumiereActivity : AppCompatActivity() {
 
     /** Defines callbacks for service binding, passed to bindService()  */
     private val connection = object : ServiceConnection {
-
+        // connexion au service et relié au message envoye
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            Log.d(TAG, "my conexion")
+            Log.d(TAG, "my connexion")
             messenger = Messenger(service)
             bound = true
         }
-
+        // déconnexion
         override fun onServiceDisconnected(arg0: ComponentName) {
             mBound = false
             messenger = null
@@ -38,17 +39,20 @@ class LumiereActivity : AppCompatActivity() {
         binding = ActivityLumiereBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // click sur bouton, appele de boundService, connexion au service ble, envoi d'un message 1 pour allumer la led
         binding.boutonBleu.setOnClickListener {
             boundS?.deviceBle()
             sendMessageToBleService(1)
             boundS?.disconnect()
         }
+        // click sur bouton, appele de boundService, connexion au service ble, envoi d'un message 1 pour allumer la led
         binding.boutonBlanc.setOnClickListener {
             boundS?.deviceBle()
-            sendMessageToBleService(2)
+            sendMessageToBleService(1)
             boundS?.disconnect()
 
         }
+        // click sur bouton, appele de boundService, connexion au service ble, envoi d'un message 1 pour allumer la led
         binding.boutonJaune.setOnClickListener {
             boundS?.deviceBle()
             sendMessageToBleService(1)
@@ -57,19 +61,19 @@ class LumiereActivity : AppCompatActivity() {
         }
         binding.boutonVert.setOnClickListener {
             boundS?.deviceBle()
-            sendMessageToBleService(2)
+            sendMessageToBleService(1)
             boundS?.disconnect()
 
         }
         binding.boutonRouge.setOnClickListener {
             boundS?.deviceBle()
-            sendMessageToBleService(3)
-            boundS?.disconnect()
+            sendMessageToBleService(1)
+            //boundS?.disconnect()
 
 
         }
     }
-
+    // fonction pour envoyer le message et reception au service
     private fun sendMessageToBleService(messageToSend: Int) {
         Log.d(TAG, "my Message")
         if (bound){
@@ -84,7 +88,7 @@ class LumiereActivity : AppCompatActivity() {
 
         }
     }
-
+    // permet de commencer la connexion au BoundService
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "inside la connexion ")
@@ -93,7 +97,7 @@ class LumiereActivity : AppCompatActivity() {
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
     }
-
+    // stop le service si il y a la connexion
     override fun onStop() {
         super.onStop()
         unbindService(connection)

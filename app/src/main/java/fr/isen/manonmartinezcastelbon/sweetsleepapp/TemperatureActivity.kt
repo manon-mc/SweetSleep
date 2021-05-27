@@ -43,7 +43,7 @@ class TemperatureActivity : AppCompatActivity() {
 
         binding.boutonTemp2.setOnClickListener {
             boundS?.deviceBle()
-            sendMessageToBleService(4)
+            sendMessageToBleService(11)
             boundS?.disconnect()
 
         }

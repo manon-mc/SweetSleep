@@ -11,7 +11,6 @@ class ConnectingActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var delegate: UserActivityFragmentInteraction? = null
         binding=ActivityConnectingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -20,6 +19,7 @@ class ConnectingActivity : AppCompatActivity(){
             intent.putExtra("ble", "")
             startActivity(intent)
         }*/
+        // redirige vers la connexion
         binding.boutonConnexion.setOnClickListener {
             val intent = Intent(this, UserActivity::class.java)
             startActivityForResult(intent, UserActivity.REQUEST_CODE)

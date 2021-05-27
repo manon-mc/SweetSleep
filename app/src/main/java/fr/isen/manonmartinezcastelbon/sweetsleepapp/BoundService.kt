@@ -11,44 +11,48 @@ import android.widget.Toast
 import java.util.*
 
 
-private const val MSG_SAY_HELLO = 1
+private const val MESSAGE_NRF = 1
 
 class BoundService : Service() {
-    private var mBluetoothManager: BluetoothManager? = null
-    private var mBluetoothAdapter: BluetoothAdapter? = null
 
+    // déclaration et instancie
+    private var mBluetoothAdapter: BluetoothAdapter? = null
     private var mBluetoothDeviceAddress: String? = null
     private var mBluetoothGatt: BluetoothGatt? = null
     private var mConnectionState = STATE_DISCONNECTED
     private lateinit var mMessenger: Messenger
+    // adress mac de la carte a rentrer
     private var mac = ""
+
+    //class qui permet de recevoir le message
     internal class IncomingHandler(
             context: Context,
             private val applicationContext: Context = context.applicationContext
     ) : Handler() {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
-                MSG_SAY_HELLO ->
-                    Toast.makeText(applicationContext, "hello!", Toast.LENGTH_SHORT).show()
+                MESSAGE_NRF ->
+                    Toast.makeText(applicationContext, "Message", Toast.LENGTH_SHORT).show()
                 else -> super.handleMessage(msg)
             }
         }
     }
 
+    // trouve le device que l'on veut grâce a l'adresse mac
     public fun deviceBle(){
         val pairedDevices: Set<BluetoothDevice>? = mBluetoothAdapter?.bondedDevices
         pairedDevices?.forEach {
             device ->
             val deviceName = device.name
-         val mac = device.address
+            val mac = device.address
             this.connect(mac)// MAC address
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        // Don't forget to unregister the ACTION_FOUND receiver.
     }
+    // se connect au ble
     private val mGattCallback = object : BluetoothGattCallback() {
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             val intentAction: String

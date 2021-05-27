@@ -14,11 +14,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //setContentView(R.layout.activity_main)
-
+        // affichage de l'activité
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //quand on click on entre dans coonectingActivity
         binding.buttonEntre.setOnClickListener {
             // bouton entrees
             //Toast.makeText(this, "Entrées", Toast.LENGTH_SHORT)
